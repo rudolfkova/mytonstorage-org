@@ -87,6 +87,11 @@ export default function ChooseProviders() {
     load();
   }, [widgetData.bagInfo]);
 
+  // Offers are quoted for a specific proof period, reset them on change
+  useEffect(() => {
+    setProviders(prev => prev.map(p => ({ ...p, offer: null, decline: null })));
+  }, [proofPeriodDays]);
+
   // Applying filters
   useEffect(() => {
     if (allProviders.length === 0) return;
@@ -99,8 +104,10 @@ export default function ChooseProviders() {
       sortingFilter
     );
 
+    const proofPeriodSeconds = proofPeriodDays * DAY_SECONDS;
     const manualToAdd = manualProviders.filter(
-      mp => !filtered.some(fp => fp.pubkey === mp.pubkey)
+      mp => mp.min_span <= proofPeriodSeconds && mp.max_span >= proofPeriodSeconds
+        && !filtered.some(fp => fp.pubkey === mp.pubkey)
     );
 
     const allFiltered = [...filtered, ...manualToAdd];
@@ -220,11 +227,17 @@ export default function ChooseProviders() {
       const prs = resp.data as Providers;
 
       if (prs?.providers.length) {
+        const provider = prs.providers[0];
+        const proofPeriodSeconds = proofPeriodDays * DAY_SECONDS;
+        if (provider.min_span > proofPeriodSeconds || provider.max_span < proofPeriodSeconds) {
+          setWarn(t('chooseProviders.providerSpanNotSupported'));
+          return;
+        }
         setManualProviders(prev => {
           const stillVisible = prev.filter(mp =>
             visibleProviders.some(vp => vp.provider.pubkey === mp.pubkey)
           );
-          return [...stillVisible, prs.providers[0]];
+          return [...stillVisible, provider];
         });
       } else if (prs?.providers.length === 0) {
         setWarn(t('chooseProviders.noProvidersFound'));

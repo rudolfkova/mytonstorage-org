@@ -101,6 +101,7 @@
         "addCustomProvider": "Add custom provider",
         "providerAlreadyAdded": "Provider already added.",
         "noProvidersFound": "No providers found with the given pubkey.",
+        "providerSpanNotSupported": "This provider does not support the selected proof period.",
         "expiredBag": "The bag has expired. Please start over.",
         "someProvidersDeclinedWarn": "Some providers declined or has errors. You can remove them from list, try again or reload providers list.",
         "failedToGetDeployTransaction": "Failed to get deploy transaction. Please try again later.",

@@ -103,6 +103,7 @@
 
         "providerAlreadyAdded": "Провайдер уже добавлен.",
         "noProvidersFound": "Провайдеры с указанным pubkey не найдены.",
+        "providerSpanNotSupported": "Этот провайдер не поддерживает выбранный период проверки.",
         "reloadProviders": "Перезагрузить провайдеров",
         "showAdvanced": "[ показать дополнительные параметры ]",
         "hideAdvanced": "[ скрыть дополнительные параметры ]",

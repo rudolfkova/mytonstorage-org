@@ -92,7 +92,7 @@ export default function ChooseStoragePeriod() {
                 }),
                 amount: initialBalance,
                 owner_address: userAddress,
-                span: storagePeriodDays * DAY_SECONDS,
+                span: proofPeriodDays * DAY_SECONDS,
             } as InitStorageContract;
             const resp = await getDeployTransaction(req);
             if (resp.status === 401) {
